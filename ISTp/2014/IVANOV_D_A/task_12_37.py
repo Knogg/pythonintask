@@ -1,3 +1,9 @@
+# Задача 12. Вариант 37
+# Разработайте игру "Крестики-нолики". (см. М.Доусон Программируем на Python гл. 6).
+
+# Ivanov. D. A.
+# 07.06.2016
+
 X = "X"
 O = "O"
 EMPTY = ""
@@ -24,7 +30,7 @@ def ask_yes_no(question):
 def ask_number(question, low, high):
     #Просит ввести число из диапазона.
     response = None
-    while response not in range(low. high):
+    while response not in range(low, high):
         response = int(input(question))
     return response
 def pieces():
@@ -38,7 +44,7 @@ def pieces():
         print("\nTвoя удаль тебя погубит... Буду начинать я.")
         computer = X
         human = O
-        return computer, human
+    return computer, human
 def new_board():
     #Создает новую игровую доску.
     board = []
@@ -61,29 +67,29 @@ def legal_moves(board):
     return moves
 def winner(board):
     #Определяет победителя в игре.
-    WAYS_TO_WIN = ((0, 1, 2),
-    (3, 4, 5),
-    (6, 7, 8),
-    (0, 3, 6),
-    (1, 4, 7),
-    (2, 5, 8),
-    (0, 4, 8),
-    (2, 4, 6))
+    WAYS_TO_WIN = ([0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6])
     for row in WAYS_TO_WIN:
-        if board[row[0]] == board[row[1]] == board[row[2]] != EMPTY:
-            winner = board[row[0]]
+        if board[row[0]] == board[row[1]] == board[row[2]] !=EMPTY:
+            winner = board[row[1]]
             return winner
-        if EMPTY not in board:
-            return TIE
-        return None
+    if EMPTY not in board:
+        return TIE
+    if EMPTY in board: return None
 def human_move(board, human):
     #Получает ход человека.
     legal = legal_moves(board)
     move = None
     while move not in legal:
         move = ask_number("Твой ход. Выбери одно из полей (О - 8):", 0, NUM_SQUARES)
-    if move not in legal:
-        print("\nCмeшнoй человек! Это поле уже занято. Выбери другое.\n")
+        if move not in legal:
+            print("\nCмeшнoй человек! Это поле уже занято. Выбери другое.\n")
     print( "Ладно ... ")
     return move
 def computer_move(board, computer, human):
@@ -98,17 +104,17 @@ def computer_move(board, computer, human):
         # если следующим ходом может победить компьютер, выберем этот ход
         if winner(board) == computer:
             print(move)
-        return move
+            return move
     # вьполнив проверку, отменим внесенные изменения
         board[move] = EMPTY
-    for move in legal_moves (bоаrd):
+    for move in legal_moves(board):
         board[move] = human
     # если следующим ходом может победить человек, блокируем этот ход
         if winner(board) == human:
             print(move)
             return move
     # вьполнив проверку, отменим внесенные изменения
-        board[move] = ЕМРТУ
+        board[move] = EMPTY
     # поскольку следующим ходом ни одна сторона не может победить.
     # выберем лучшее из доступных полей
     for move in BEST_MOVES:
@@ -126,8 +132,9 @@ def congrat_winner(the_winner, computer, human):
     #Поздравляет победителя игры.
         if the_winner != TIE:
             print("Tpи", the_winner, "в ряд!\n")
-        else:
+        elif the_winner == TIE:
             print("Hичья!\n")
+            print("Тебе повезло человечишка, но в следующий раз так не будет")
         if the_winner == computer: print("Kaк я и предсказывал, победа в очередной раз осталась за мной. \n"
         "Вот еще один довод в пользу того, что компьютеры превосходят людей решительно во всем.")
         elif the_winner == human:
